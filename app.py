@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer
 from pinecone import Pinecone
@@ -26,7 +25,7 @@ def query():
     results = index.query(vector=query_vector, top_k=5, include_metadata=True)
 
     chunks = [match["metadata"]["text"] for match in results["matches"]]
-    answer = "\n---\n".join(chunks)
+    answer = "\\n---\\n".join(chunks)
 
     return jsonify({"answer": answer})
 
