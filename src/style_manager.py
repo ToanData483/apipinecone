@@ -79,10 +79,9 @@ class BusinessStyleManager:
     
     def _create_business_styles(self):
         """Create business book paragraph styles"""
-        
+
         bold_font = f'{self.base_font}-Bold' if self.base_font != 'Helvetica' else 'Helvetica-Bold'
-        italic_font = f'{self.base_font}-Italic' if self.base_font != 'Helvetica' else 'Helvetica-Oblique'
-        
+
         # CHAPTER TITLE
         self.styles.add(ParagraphStyle(
             name='BusinessChapter',
@@ -94,8 +93,8 @@ class BusinessStyleManager:
             fontName=bold_font,
             leading=30
         ))
-        
-        # BODY TEXT  
+
+        # BODY TEXT
         self.styles.add(ParagraphStyle(
             name='BusinessBody',
             fontSize=12,
@@ -108,13 +107,13 @@ class BusinessStyleManager:
             textColor=HexColor('#1a1a1a'),
             wordWrap='CJK'  # Better for Vietnamese
         ))
-        
-        # DIALOG
+
+        # DIALOG - Use base font instead of italic to avoid font errors
         self.styles.add(ParagraphStyle(
             name='BusinessDialog',
             parent=self.styles['BusinessBody'],
             leftIndent=0.25*inch,
-            fontName=italic_font,
+            fontName=self.base_font,  # Use base font instead of italic
             textColor=HexColor('#2a2a2a')
         ))
         
