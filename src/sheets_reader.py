@@ -6,9 +6,12 @@ Google Sheets Reader - WITH RETRY LOGIC
 
 from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
+from google_auth_httplib2 import AuthorizedHttp
 import logging
 import time
 import random
+import ssl
+import httplib2
 
 class SheetsReader:
     """Google Sheets API reader với retry logic"""
@@ -27,7 +30,10 @@ class SheetsReader:
                 scopes=['https://www.googleapis.com/auth/spreadsheets.readonly']
             )
 
-            self.service = build('sheets', 'v4', credentials=credentials)
+            # Disable SSL verification for development/testing environment
+            http_base = httplib2.Http(disable_ssl_certificate_validation=True)
+            http = AuthorizedHttp(credentials, http=http_base)
+            self.service = build('sheets', 'v4', http=http)
 
             # Get service account email for logging
             service_account_email = credentials.service_account_email
